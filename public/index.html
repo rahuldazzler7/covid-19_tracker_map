@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS covid19 live update</title>
+
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+<style>
+    *{
+        margin:0;
+        padding:0;
+    }
+    #map{
+        width: 100vw;
+        height: 100vh;
+    }
+</style>
+
+</head>
+<body>
+    
+    <div id='map'></div>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoicnNhcmthciIsImEiOiJja2EzanV1MDcwa3d5M2twMDJ0cTYwczc5In0.G2DAp0SveqH_wI_GA-yYgQ';
+        var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/dark-v10',
+        zoom:1,
+        center:[0,20]
+        });
+        fetch("/latest/", {method:'get'})
+        .then(res=>{
+           return res.json()
+        })
+        .then(rsp=>{
+            console.log(rsp.rs)
+            rsp.rs.forEach(element=>{
+                latitude = element.lat;
+                longitude = element.lng;
+
+                var cases = element.confirmed_cases;
+                if(cases >= 50000){
+                    color = "rgb(255, 0, 0)"
+                }
+                if(cases<50000){
+                    if(cases>10000){
+                        color = "rgb(0, 0, 150)"
+                    }
+                    else{
+                    color = "rgb(0, 200, 0)"
+                    }
+                    
+                }
+
+                var popup = new mapboxgl.Popup({ offset: 25}).setText(
+                    `Country: ${element.country}        ,   
+                    Confirmed-cases: ${element.confirmed_cases} ,
+                    Active-cases: ${element.active} ,
+                    Deaths: ${element.deaths}, 
+                    Recoverd: ${element.recovered} 
+                    `  
+                    );
+
+                 var marker = new mapboxgl.Marker({
+                    draggable: false,
+                    color: color
+                    })
+                    .setLngLat([longitude, latitude])
+                    .setPopup(popup)
+                    .addTo(map);
+            
+            })
+        })
+        
+        map.on('load', function() {
+map.loadImage(
+'https://res.cloudinary.com/dz05jrtvq/image/upload/v1589303751/sparkpost/productcsvs/Untitled_yisedy.png',
+function(error, image) {
+if (error) throw error;
+map.addImage('cat', image);
+map.addSource('point', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features': [
+{
+'type': 'Feature',
+'geometry': {
+'type': 'Point',
+'coordinates': [-165, 75]
+}
+}
+]
+}
+});
+map.addLayer({
+'id': 'points',
+'type': 'symbol',
+'source': 'point',
+'layout': {
+'icon-image': 'cat',
+'icon-size': 1.00
+}
+});
+}
+);
+});
+        
+       
+        </script>
+    
+</body>
+</html>

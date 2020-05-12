@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS covid19 live update</title>
+
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+<style>
+    *{
+        margin:0;
+        padding:0;
+    }
+    #map{
+        width: 100vw;
+        height: 100vh;
+    }
+</style>
+
+</head>
+<body>
+    
+    <div id='map'></div>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoicnNhcmthciIsImEiOiJja2EzanV1MDcwa3d5M2twMDJ0cTYwczc5In0.G2DAp0SveqH_wI_GA-yYgQ';
+        var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/dark-v10',
+        zoom:1,
+        center:[0,20]
+        });
+        fetch("/")
+        .then(res=>{
+            console.log(res)
+        })
+        
+        var marker = new mapboxgl.Marker({
+            draggable: false
+            })
+            .setLngLat([0, 0])
+            .addTo(map);
+            
+        </script>
+    
+</body>
+</html>
