@@ -85,7 +85,7 @@ let covidTracker = async (req, res)=>{
             result.end(function (resp) {
                 if (resp.error) throw new Error(resp.error);
                 
-                    console.log("Working >> "+j);
+                    console.log(`Working ${j}>> ${allcountry[j].name}`);
             
                     alldata.push(resp.body[0])
                     if(j+1 == allcountry.length){
@@ -111,7 +111,7 @@ let covidTracker = async (req, res)=>{
                 
             });
             
-        }, 1000 * (j+0.1) )
+        }, 1000 * (j+0.4) )
     }
        
 }

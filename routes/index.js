@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", covidController.showRecord)
 router.get("/updatelist", covidController.covidTracker);
-router.get("/list", covidController.listOfCountries)
+// router.get("/list", covidController.listOfCountries)
 
 
 module.exports = router;
