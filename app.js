@@ -11,7 +11,7 @@ app.set('view engine', 'ejs')
 
 //DB connection
 
-mongoose.connect(process.env.MongoURI, {
+mongoose.connect(process.env.MongoURI2, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
